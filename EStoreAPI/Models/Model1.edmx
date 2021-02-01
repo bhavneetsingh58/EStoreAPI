@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EStoreAPIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="userID" Type="int" />
+          <Property Name="productID" Type="int" />
+          <Property Name="addedBy" Type="varchar" MaxLength="50" />
+          <Property Name="orderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProdImage">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="photo" Type="image" />
+          <Property Name="productID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="prodID" />
+          </Key>
+          <Property Name="name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="rating" Type="int" />
+          <Property Name="addedBy" Type="varchar" MaxLength="50" />
+          <Property Name="prodID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="photo" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="userType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="addedBy" Type="varchar" MaxLength="50" />
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Orders__productI__1B0907CE">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="prodID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="productID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__userID__1A14E395">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProdImage__produ__49C3F6B7">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProdImage" Type="Self.ProdImage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="prodID" />
+            </Principal>
+            <Dependent Role="ProdImage">
+              <PropertyRef Name="productID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EStoreAPIModelStoreContainer">
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProdImage" EntityType="Self.ProdImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Orders__productI__1B0907CE" Association="Self.FK__Orders__productI__1B0907CE">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__userID__1A14E395" Association="Self.FK__Orders__userID__1A14E395">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProdImage__produ__49C3F6B7" Association="Self.FK__ProdImage__produ__49C3F6B7">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProdImage" EntitySet="ProdImage" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EStoreAPIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="userID" Type="Int32" />
+          <Property Name="productID" Type="Int32" />
+          <Property Name="addedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="orderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Orders__productI__1B0907CE" FromRole="Order" ToRole="Product" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Orders__userID__1A14E395" FromRole="Order" ToRole="User" />
+        </EntityType>
+        <EntityType Name="ProdImage">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="productID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__ProdImage__produ__49C3F6B7" FromRole="ProdImage" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="prodID" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="rating" Type="Int32" />
+          <Property Name="addedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="prodID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__productI__1B0907CE" FromRole="Product" ToRole="Order" />
+          <NavigationProperty Name="ProdImage" Relationship="Self.FK__ProdImage__produ__49C3F6B7" FromRole="Product" ToRole="ProdImage" />
+          <Property Name="photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="addedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__userID__1A14E395" FromRole="User" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK__Orders__productI__1B0907CE">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="prodID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="productID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__userID__1A14E395">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProdImage__produ__49C3F6B7">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProdImage" Type="Self.ProdImage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="prodID" />
+            </Principal>
+            <Dependent Role="ProdImage">
+              <PropertyRef Name="productID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EStoreAPIEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="ProdImages" EntityType="Self.ProdImage" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__Orders__productI__1B0907CE" Association="Self.FK__Orders__productI__1B0907CE">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__userID__1A14E395" Association="Self.FK__Orders__userID__1A14E395">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProdImage__produ__49C3F6B7" Association="Self.FK__ProdImage__produ__49C3F6B7">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProdImage" EntitySet="ProdImages" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EStoreAPIModelStoreContainer" CdmEntityContainer="EStoreAPIEntities">
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="EStoreAPIModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="addedBy" ColumnName="addedBy" />
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProdImages">
+            <EntityTypeMapping TypeName="EStoreAPIModel.ProdImage">
+              <MappingFragment StoreEntitySet="ProdImage">
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="productID" ColumnName="productID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="EStoreAPIModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="addedBy" ColumnName="addedBy" />
+                <ScalarProperty Name="prodID" ColumnName="prodID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="EStoreAPIModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="addedBy" ColumnName="addedBy" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
