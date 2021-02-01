@@ -36,13 +36,6 @@ namespace EStoreAPI.Controllers
 
         public IEnumerable<ProductOut> Get()
         {
-            //return db.Products
-            //    .Select(obj => new Product
-            //    {
-            //    prodID = obj.prodID
-            //    })
-            //    .ToList();
-
             return (from obj in db.Products
                     select new ProductOut
                     {
